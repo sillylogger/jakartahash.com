@@ -6,7 +6,7 @@
 
 ## Next Steps
 - [ ] Fetch IG posts via Instagram Graph API and render in JS on home page
-- [ ] Build `_data/kennels.yml` to drive kennel listing
+- [x] Build `_data/kennels.yml` to drive kennel listing
 - [ ] Add social/meta tags and favicon
 - [ ] Test site on both domains
 

@@ -10,3 +10,27 @@ header, footer {
 nav a {
   margin: 0 0.5rem;
 }
+
+/* Kennel card styling */
+.kennel-card {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.kennel-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+  color: #222;
+}
+
+.kennel-tagline {
+  font-style: italic;
+  color: #666;
+  margin-bottom: 0.7rem;
+}
+
+.kennel-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
