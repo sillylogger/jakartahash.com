@@ -6,6 +6,11 @@ Welcome to the Jakarta Hash House Harriers website! This site is built using Jek
 
 This project is a website for Jakarta's running club with a drinking problem. It provides information about the club, events, and more.
 
+## Information Sources
+* https://en.wikipedia.org/wiki/Hash_House_Harriers
+* https://genealogy.gotothehash.net/index.php?r=chapters/list&country=Indonesia
+
+
 ## Installation Instructions
 
 1. **Install Ruby**: Ensure you have Ruby installed on your system. You can check this by running `ruby -v` in your terminal.
