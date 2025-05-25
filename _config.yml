@@ -1,6 +1,7 @@
 title: Jakarta Hash House Harriers
 description: Jakarta's running club with a drinking problem
-baseurl: "/"
+url: "https://hashhouseharriersjakarta.com"
+baseurl: ""
 permalink: pretty
 exclude:
   - .project

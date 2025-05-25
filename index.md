@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Home
+description: Jakarta Hash House Harriers is a global running and social club combining elements of running, orienteering, and socializing in Jakarta, Indonesia.
 ---
 
 ### On On!
@@ -12,7 +13,7 @@ Often dubbed "a drinking club with a running problem," the Hash emphasizes camar
 Check out upcoming runs:
 <!-- LightWidget WIDGET -->
 <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
-<iframe src="//lightwidget.com/widgets/092292fcf3df5d78bf8908c85198582b.html"
+<iframe src="https://cdn.lightwidget.com/widgets/092292fcf3df5d78bf8908c85198582b.html"
         scrolling="no"
         allowtransparency="true"
         class="lightwidget-widget"

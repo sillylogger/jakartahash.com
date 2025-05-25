@@ -5,6 +5,7 @@
   emoji: 🏃‍♂️
   tagline: Men only. Runs weekly.
   description: Established in 1971, Jakarta HHH is one of the city's oldest and most traditional Hash chapters, running every Monday at 5 PM regardless of weather conditions. Known for its spirited "circle" gatherings, it maintains a male-dominated environment with a focus on camaraderie and classic Hash traditions.
+  facebook_url: https://www.facebook.com/profile.php?id=100050959311318
 
 - name: Thank God It's Saturday
   abbreviation: TGIS
@@ -13,6 +14,7 @@
   emoji: 🏃‍♂️
   tagline: Mixed gender, relaxed weekend runs.
   description: TGIS HHH is a mixed-gender Hash that runs every second and fourth Saturday at 4 PM, offering a relaxed and social atmosphere. Formerly known as TGIF, the group shifted to Saturdays to accommodate more participants seeking weekend adventures.
+  facebook_url: https://www.facebook.com/profile.php?id=100057702630259
 
 - name: Batavia Hoons
   abbreviation: BH4
@@ -20,18 +22,21 @@
   emoji: 🏃‍♂️
   tagline: Male-only with mixed last Thursday.
   description: BH4 is a male-only Hash that convenes every Thursday at 5 PM, with a mixed-gender run on the last Thursday of each month. The chapter is renowned for its interactive circles filled with humor, songs, and the traditional "down-down" rituals.
+  facebook_url: https://www.facebook.com/groups/224954351584716
 
 - name: Betawi Hash House Harriers
   day: Saturday
   emoji: 🏃‍♂️
   tagline: Popular mixed Hash, affordable fees.
   description: Betawi HHH is a popular mixed Hash that meets on Saturdays, attracting a diverse crowd due to its affordable run fees and inclusive vibe. The chapter provides an excellent opportunity for newcomers to experience hashing in Jakarta.
+  facebook_url: https://www.facebook.com/betawihhh 
 
 - name: Jakarta Harriettes
   day: Wednesday
   emoji: 🏃‍♀️
   tagline: Women-led, very social.
   description: This women-led chapter meets on Wednesdays at 5 PM, offering a welcoming environment where ladies lead the run, though men are also encouraged to participate. The group emphasizes inclusivity and fun, fostering a supportive community for all levels of runners.
+  facebook_url: https://www.facebook.com/jakartahashhouse.harriettes
 
 - name: JAVA Hash House Horrors
   day: Sunday
