@@ -23,17 +23,16 @@ This directory contains Terraform configuration and deployment scripts for hosti
 4. **Deploy your site:**
    ```bash
    cd ..  # back to project root
-   ./infrastructure/scripts/deploy.sh
+   ./infrastructure/deploy.sh
    ```
 
 ## Directory Structure
 
 - `terraform/` - Terraform configuration files
-- `scripts/` - Deployment and utility scripts
 
 ## Commands
 
 - **Deploy infrastructure:** `cd infrastructure/terraform && terraform apply`
-- **Deploy site:** `./infrastructure/scripts/deploy.sh`
+- **Deploy site:** `./infrastructure/deploy.sh`
 - **Get IP addresses:** `cd infrastructure/terraform && terraform output`
 - **Destroy infrastructure:** `cd infrastructure/terraform && terraform destroy`
