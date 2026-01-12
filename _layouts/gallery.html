@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | Jakarta Hash House Harriers</title>
+  <meta name="description" content="{{ page.description }}">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.description }}">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/gallery.css' | relative_url }}">
+</head>
+<body>
+  <!-- Sticky Navigation -->
+  <nav class="gallery-nav">
+    <a href="{{ '/' | relative_url }}" class="gallery-nav__logo">Jakarta Hash House Harriers</a>
+    <div class="gallery-nav__links">
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <a href="{{ '/kennels/' | relative_url }}">Kennels</a>
+      <a href="{{ '/gallery/' | relative_url }}">Gallery</a>
+    </div>
+  </nav>
+
+  <!-- Hero Slideshow -->
+  {% assign hero_images = site.data.gallery_images | sample: 6 %}
+  <section class="hero">
+    <div class="hero__slides">
+      {% for image in hero_images %}
+      <div class="hero__slide{% if forloop.first %} active{% endif %}">
+        <img src="{{ image.src | relative_url }}" alt="Hash House Harriers Jakarta" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="hero__overlay">
+      <h1 class="hero__title">Jakarta Hash House Harriers</h1>
+      <p class="hero__tagline">A drinking club with a running problem</p>
+    </div>
+
+    <button class="hero__nav hero__nav--prev" aria-label="Previous slide">&#10094;</button>
+    <button class="hero__nav hero__nav--next" aria-label="Next slide">&#10095;</button>
+
+    <div class="hero__indicators">
+      {% for image in hero_images %}
+      <button class="hero__indicator{% if forloop.first %} active{% endif %}" aria-label="Go to slide {{ forloop.index }}"></button>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Photo Grid Section -->
+  <section class="gallery-section">
+    <h2 class="gallery-section__title">Photo Gallery</h2>
+    <p class="gallery-section__subtitle">Memories from the trails and the circle</p>
+
+    <div class="photo-grid">
+      {% for image in site.data.gallery_images %}
+      <div class="photo-grid__item">
+        <img src="{{ image.src | relative_url }}" alt="Hash run on {{ image.date }}" loading="lazy">
+        {% if image.date != "unknown-date" %}
+        <div class="photo-grid__date">{{ image.date }}</div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="gallery-footer">
+    <p>&copy; {{ site.time | date: '%Y' }} Jakarta Hash House Harriers. On-On!</p>
+    <p><a href="{{ '/' | relative_url }}">Back to main site</a></p>
+  </footer>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox">
+    <button class="lightbox__close" aria-label="Close lightbox">&times;</button>
+    <button class="lightbox__nav lightbox__nav--prev" aria-label="Previous image">&#10094;</button>
+    <div class="lightbox__content">
+      <img class="lightbox__image" src="" alt="Gallery image">
+    </div>
+    <button class="lightbox__nav lightbox__nav--next" aria-label="Next image">&#10095;</button>
+    <div class="lightbox__counter"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="{{ '/assets/js/gallery.js' | relative_url }}"></script>
+</body>
+</html>
