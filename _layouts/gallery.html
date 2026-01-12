@@ -22,28 +22,36 @@
 <body>
   <!-- Sticky Navigation -->
   <nav class="gallery-nav">
-    <a href="{{ '/' | relative_url }}" class="gallery-nav__logo">Jakarta Hash House Harriers</a>
+    <a href="{{ '/' | relative_url }}" class="gallery-nav__logo">🏃 Jakarta Hash House Harriers</a>
     <div class="gallery-nav__links">
-      <a href="{{ '/' | relative_url }}">Home</a>
-      <a href="{{ '/kennels/' | relative_url }}">Kennels</a>
-      <a href="{{ '/gallery/' | relative_url }}">Gallery</a>
+      <a href="{{ '/' | relative_url }}">🏠 Home</a>
+      <a href="{{ '/kennels/' | relative_url }}">🐕 Kennels</a>
+      <a href="{{ '/gallery/' | relative_url }}">📸 Gallery</a>
+      <button class="nsfw-toggle" id="nsfwToggle">
+        <span class="nsfw-toggle__icon">🔞</span>
+        <span>NSFW:</span>
+        <span class="nsfw-toggle__status"></span>
+      </button>
     </div>
   </nav>
 
   <!-- Hero Slideshow -->
-  {% assign hero_images = site.data.gallery_images | sample: 6 %}
+  {% assign hero_images = site.data.headline_images | default: site.data.gallery_images | sample: 6 %}
   <section class="hero">
     <div class="hero__slides">
       {% for image in hero_images %}
       <div class="hero__slide{% if forloop.first %} active{% endif %}">
         <img src="{{ image.src | relative_url }}" alt="Hash House Harriers Jakarta" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+        {% if site.data.headline_captions %}
+        <div class="hero__caption">{{ site.data.headline_captions[image.src] | default: "On-on!" }}</div>
+        {% endif %}
       </div>
       {% endfor %}
     </div>
 
     <div class="hero__overlay">
       <h1 class="hero__title">Jakarta Hash House Harriers</h1>
-      <p class="hero__tagline">A drinking club with a running problem</p>
+      <p class="hero__tagline">A drinking club with a running problem 🍺</p>
     </div>
 
     <button class="hero__nav hero__nav--prev" aria-label="Previous slide">&#10094;</button>
@@ -56,28 +64,165 @@
     </div>
   </section>
 
-  <!-- Photo Grid Section -->
-  <section class="gallery-section">
-    <h2 class="gallery-section__title">Photo Gallery</h2>
-    <p class="gallery-section__subtitle">Memories from the trails and the circle</p>
-
-    <div class="photo-grid">
-      {% for image in site.data.gallery_images %}
-      <div class="photo-grid__item">
-        <img src="{{ image.src | relative_url }}" alt="Hash run on {{ image.date }}" loading="lazy">
-        {% if image.date != "unknown-date" %}
-        <div class="photo-grid__date">{{ image.date }}</div>
-        {% endif %}
+  <!-- Review Ticker -->
+  <section class="review-ticker">
+    <div class="review-ticker__track">
+      {% for testimonial in site.data.testimonials %}
+      <div class="review-ticker__item">
+        <span class="review-ticker__stars">
+          {% for i in (1..5) %}{% if i <= testimonial.rating %}<span class="star-filled">★</span>{% else %}<span class="star-empty">☆</span>{% endif %}{% endfor %}
+        </span>
+        <span class="review-ticker__quote">"{{ testimonial.comment }}"</span>
+      </div>
+      {% endfor %}
+      <!-- Duplicate for seamless loop -->
+      {% for testimonial in site.data.testimonials %}
+      <div class="review-ticker__item">
+        <span class="review-ticker__stars">
+          {% for i in (1..5) %}{% if i <= testimonial.rating %}<span class="star-filled">★</span>{% else %}<span class="star-empty">☆</span>{% endif %}{% endfor %}
+        </span>
+        <span class="review-ticker__quote">"{{ testimonial.comment }}"</span>
       </div>
       {% endfor %}
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Two-Column Main Content -->
+  <div class="main-content">
+    <!-- Left Column: Photo Pile -->
+    <div class="main-content__left">
+      <section class="photo-pile-section">
+        <h2 class="photo-pile-section__title">📸 Photo Gallery</h2>
+        <p class="photo-pile-section__subtitle">Memories from the trails and the circle</p>
+
+        {% assign pile_images = site.data.gallery_images | default: site.data.headline_images %}
+        {% assign total_images = pile_images | size %}
+        {% assign num_rows = total_images | divided_by: 4 %}
+        {% assign pile_height = num_rows | times: 120 | plus: 220 %}
+        <div class="photo-pile" style="min-height: {{ pile_height }}px;">
+          {% for image in pile_images %}
+          {% assign rotation = forloop.index | modulo: 9 | minus: 4 | times: 4 %}
+          {% assign col = forloop.index0 | modulo: 4 %}
+          {% assign row = forloop.index0 | divided_by: 4 %}
+          {% assign left_base = col | times: 23 | plus: 2 %}
+          {% assign top_base = row | times: 120 | plus: 20 %}
+          {% assign z_index = forloop.index | plus: 1 %}
+          <div class="photo-pile__item"
+               style="transform: rotate({{ rotation }}deg); left: {{ left_base }}%; top: {{ top_base }}px; z-index: {{ z_index }};"
+               data-index="{{ forloop.index0 }}"
+               data-src="{{ image.src }}">
+            <img src="{{ image.src | relative_url }}" alt="Hash run photo" loading="lazy">
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Column: FAQ + Sponsors -->
+    <div class="main-content__right">
+      <!-- FAQ Section -->
+      <section class="faq">
+        <h2 class="faq__title">❓ FAQ</h2>
+        <p class="faq__subtitle">Everything you were afraid to ask</p>
+
+        <div class="faq__list">
+          {% for item in site.data.faq %}
+          <div class="faq-item">
+            <div class="faq-item__question">
+              <span>{{ item.question }}</span>
+              <span class="faq-item__icon">+</span>
+            </div>
+            <div class="faq-item__answer">
+              <p>{{ item.answer }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- Sponsors Section -->
+      <section class="sponsors">
+        <p class="sponsors__title">🍺 Proudly Sponsored By</p>
+        <div class="sponsors__grid">
+          {% for sponsor in site.data.sponsors %}
+          <div class="sponsor">
+            <div class="sponsor__emoji">{{ sponsor.emoji }}</div>
+            <div class="sponsor__name">{{ sponsor.name }}</div>
+            <div class="sponsor__tagline">{{ sponsor.tagline }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Geocities Visitor Counter -->
+  <div class="geocities-counter">
+    <div class="geocities-counter__label">
+      <span class="geocities-counter__gif">🌐</span>
+      YOU ARE VISITOR NUMBER
+      <span class="geocities-counter__gif">🌐</span>
+    </div>
+    <div class="geocities-counter__wrapper">
+      <span class="geocities-counter__digit">0</span>
+      <span class="geocities-counter__digit">0</span>
+      <span class="geocities-counter__digit">4</span>
+      <span class="geocities-counter__digit">2</span>
+      <span class="geocities-counter__digit">0</span>
+      <span class="geocities-counter__digit">6</span>
+      <span class="geocities-counter__digit">9</span>
+    </div>
+    <div class="geocities-counter__subtitle">
+      <span class="geocities-counter__gif">⭐</span>
+      Since <span>1938</span>
+      <span class="geocities-counter__gif">⭐</span>
+    </div>
+    <a class="geocities-counter__guestbook" href="#">📝 Sign Our Guestbook!</a>
+  </div>
+
+  <!-- Enhanced Footer -->
   <footer class="gallery-footer">
-    <p>&copy; {{ site.time | date: '%Y' }} Jakarta Hash House Harriers. On-On!</p>
-    <p><a href="{{ '/' | relative_url }}">Back to main site</a></p>
+    <div class="gallery-footer__inner">
+      <div class="gallery-footer__col">
+        <h4>📧 Contact</h4>
+        <p>mismanagement@jakartahash.com</p>
+        <p class="gallery-footer__doge">such email. very response. wow.</p>
+      </div>
+      <div class="gallery-footer__col">
+        <h4>🏃 Join Us</h4>
+        <p>Every week, somewhere in Jakarta</p>
+        <p class="gallery-footer__doge">much run. very sweat. so beer.</p>
+      </div>
+      <div class="gallery-footer__col">
+        <h4>⚠️ Disclaimer</h4>
+        <p>Not responsible for hangovers, lost shoes, or hash names.</p>
+        <p class="gallery-footer__doge">very legal. such disclaimer.</p>
+      </div>
+    </div>
+    <div class="gallery-footer__bottom">
+      <p>© {{ site.time | date: '%Y' }} Jakarta Hash House Harriers. No rights reserved. On-On! 🍺</p>
+      <p><a href="{{ '/' | relative_url }}">← Back to main site</a></p>
+    </div>
   </footer>
+
+  <!-- Down-Down Counter (Fixed Position) - Click to increment! -->
+  <div class="down-counter">
+    <div class="down-counter__label">Down-Downs</div>
+    <div class="down-counter__number">6</div>
+    <div class="down-counter__emoji">🍻</div>
+    <div class="down-counter__hint">tap to drink!</div>
+  </div>
+
+  <!-- Down-Down Takeover -->
+  <div class="down-takeover">
+    <div class="down-takeover__content">
+      <div class="down-takeover__emoji">🍻🍺🍻</div>
+      <div class="down-takeover__text">69 DOWN-DOWNS!</div>
+      <div class="down-takeover__subtext">nice.</div>
+      <div class="down-takeover__emoji">🏃🍺🏃</div>
+    </div>
+    <div class="down-takeover__dismiss">click anywhere to reset (coward)</div>
+  </div>
 
   <!-- Lightbox Modal -->
   <div class="lightbox">
@@ -85,10 +230,35 @@
     <button class="lightbox__nav lightbox__nav--prev" aria-label="Previous image">&#10094;</button>
     <div class="lightbox__content">
       <img class="lightbox__image" src="" alt="Gallery image">
+      <div class="lightbox__caption"></div>
     </div>
     <button class="lightbox__nav lightbox__nav--next" aria-label="Next image">&#10095;</button>
     <div class="lightbox__counter"></div>
   </div>
+
+  <!-- Caption data for lightbox (generated by scripts/generate-captions.py or fallbacks) -->
+  <script id="gallery-captions" type="application/json">
+  {% if site.data.gallery_captions %}
+  {{ site.data.gallery_captions | jsonify }}
+  {% else %}
+  {
+    "fallback": [
+      "Behold: A group of extremely dedicated athletes attempting forward motion. The beer was definitely earned.",
+      "Witness: Brave souls engaging in what experts call 'cardio (allegedly)'. Moments before disaster.",
+      "Rare footage of a chaotic assembly of questionable decision-makers. This is completely normal behavior.",
+      "Scientists baffled by this display of team bonding and essential hydration. The hangover was legendary.",
+      "Local news reports: People barely standing after character building exercise. Management takes no responsibility.",
+      "Breaking: Evidence of friendship™ and peer pressure in the wild. And they wonder why we drink.",
+      "Leaked image shows humans engaging in what they claim is 'running'. This explains a lot, actually.",
+      "Classified photo of survival juice consumption. On-on to questionable decisions!",
+      "Historians debate the purpose of this gathering. They knew what they signed up for. (They didn't.)",
+      "Experts confirm this is exactly what peak performance looks like. Typical Tuesday, honestly.",
+      "Behold: The aftermath of nature's carpet and complimentary mud exfoliation. No hashers were harmed.",
+      "Witness: A herd of questionable decision-makers fleeing from responsibility. The circle was... eventful."
+    ]
+  }
+  {% endif %}
+  </script>
 
   <!-- Scripts -->
   <script src="{{ '/assets/js/gallery.js' | relative_url }}"></script>

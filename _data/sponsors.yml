@@ -1,0 +1,21 @@
+# Fake Sponsors - Indonesian beer brands
+
+- name: "Bintang"
+  tagline: "Official Hydration Partner"
+  emoji: "⭐"
+
+- name: "Anker"
+  tagline: "Fuel for the Trail"
+  emoji: "⚓"
+
+- name: "Prost"
+  tagline: "Because Water is for Fish"
+  emoji: "🍺"
+
+- name: "Kura Kura"
+  tagline: "Slow Beer for Slow Runners"
+  emoji: "🐢"
+
+# - name: "Bir Bali"
+#   tagline: "Island Vibes, Jakarta Hangovers"
+#   emoji: "🌴"
