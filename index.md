@@ -39,7 +39,20 @@ document.addEventListener('DOMContentLoaded', function() {
     function watchLightboxChanges(lightbox) {
         const lightboxObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                // Only care about image src changes (indicates navigation to new post)
+                // Watch for lightbox being shown (class change)
+                if (mutation.type === 'attributes' &&
+                    mutation.attributeName === 'class' &&
+                    mutation.target === lightbox) {
+
+                    // If lightbox is now visible (hidden class removed), re-enhance
+                    if (!lightbox.classList.contains('lightwidget__lightbox--hidden')) {
+                        console.log('Lightbox reopened, re-enhancing...');
+                        currentPostId = null; // Reset so we re-process
+                        setTimeout(() => enhanceLightbox(lightbox), 100);
+                    }
+                }
+
+                // Watch for image src changes (indicates navigation to new post)
                 if (mutation.type === 'attributes' &&
                     mutation.attributeName === 'src' &&
                     mutation.target.classList.contains('lightwidget__lightbox-image')) {
@@ -61,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         lightboxObserver.observe(lightbox, {
             attributes: true,
-            attributeFilter: ['src'],
+            attributeFilter: ['src', 'class'],
             subtree: true
         });
     }
@@ -110,45 +123,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function adjustLightboxLayout(lightbox) {
         const dialog = lightbox.querySelector('.lightwidget__lightbox-dialog');
-        if (dialog && !dialog.hasAttribute('data-layout-adjusted')) {
-            // Make the dialog use flexbox layout with proper sizing
-            dialog.style.display = 'flex';
-            dialog.style.flexDirection = 'row';
-            dialog.style.width = '90vw';
-            dialog.style.height = '80vh';
-            dialog.style.maxWidth = '1200px';
-            dialog.style.maxHeight = '800px';
+        if (!dialog) return;
 
-            const preloader = dialog.querySelector('.lightwidget__lightbox-preloader');
-            const details = dialog.querySelector('.lightwidget__lightbox-details');
+        const isMobile = window.innerWidth < 640;
 
-            if (preloader && details) {
-                // Image takes 40%, caption takes 60%
+        // Base dialog styles
+        dialog.style.display = 'flex';
+        dialog.style.flexDirection = isMobile ? 'column' : 'row';
+        dialog.style.width = isMobile ? '95vw' : '90vw';
+        dialog.style.maxWidth = isMobile ? '100%' : '1200px';
+        dialog.style.height = isMobile ? 'auto' : '80vh';
+        dialog.style.maxHeight = isMobile ? '90vh' : '800px';
+
+        const preloader = dialog.querySelector('.lightwidget__lightbox-preloader');
+        const details = dialog.querySelector('.lightwidget__lightbox-details');
+
+        if (preloader && details) {
+            if (isMobile) {
+                // Mobile: image on top, constrained height
+                preloader.style.flex = '0 0 auto';
+                preloader.style.width = '100%';
+                preloader.style.maxHeight = '40vh';
+                preloader.style.height = 'auto';
+
+                // Caption below, scrollable
+                details.style.flex = '1';
+                details.style.width = '100%';
+                details.style.overflow = 'auto';
+                details.style.height = 'auto';
+            } else {
+                // Desktop: side by side (40% image / 60% caption)
                 preloader.style.flex = '0 0 40%';
                 preloader.style.height = '100%';
-                preloader.style.display = 'flex';
-                preloader.style.alignItems = 'center';
-                preloader.style.justifyContent = 'center';
-
-                // Make sure image fits properly
-                const img = preloader.querySelector('.lightwidget__lightbox-image');
-                if (img) {
-                    img.style.width = '100%';
-                    img.style.height = 'auto';
-                    img.style.maxHeight = '100%';
-                    img.style.objectFit = 'contain';
-                }
+                preloader.style.maxHeight = '';
+                preloader.style.width = '';
 
                 details.style.flex = '1';
                 details.style.height = '100%';
                 details.style.overflow = 'auto';
-                details.style.padding = '20px';
-                details.style.display = 'flex';
-                details.style.flexDirection = 'column';
+                details.style.width = '';
             }
 
-            // Mark as layout adjusted so we don't do it again
-            dialog.setAttribute('data-layout-adjusted', 'true');
+            // Shared preloader styles
+            preloader.style.display = 'flex';
+            preloader.style.alignItems = 'center';
+            preloader.style.justifyContent = 'center';
+
+            // Image styling
+            const img = preloader.querySelector('.lightwidget__lightbox-image');
+            if (img) {
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                img.style.maxHeight = '100%';
+                img.style.objectFit = 'contain';
+            }
+
+            // Details styling
+            details.style.padding = '20px';
+            details.style.display = 'flex';
+            details.style.flexDirection = 'column';
         }
     }
 

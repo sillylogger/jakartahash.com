@@ -1,7 +1,11 @@
 body {
   font-family: sans-serif;
-  margin: 2rem;
+  margin: 0;
   background: #f9f9f9;
+}
+
+main {
+  margin: 2rem;
 }
 header, footer {
   text-align: center;
@@ -33,4 +37,63 @@ nav a {
 .kennel-description {
   font-size: 0.95rem;
   line-height: 1.5;
+}
+
+/* LightWidget Lightbox Overrides */
+
+/* Force caption visible on mobile */
+@media (max-width: 42rem) {
+  .lightwidget__lightbox-caption-wrapper {
+    display: block !important;
+  }
+}
+
+/* Fix lightbox centering - force full viewport overlay (only when visible) */
+.lightwidget__lightbox:not(.lightwidget__lightbox--hidden) {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Ensure hidden lightbox stays hidden */
+.lightwidget__lightbox--hidden {
+  display: none !important;
+}
+
+/* Mobile lightbox layout */
+@media (max-width: 640px) {
+  .lightwidget__lightbox-dialog {
+    flex-direction: column !important;
+    height: 90vh !important;
+    max-height: none !important;
+    width: 95vw !important;
+    margin: 5vh auto !important;
+  }
+
+  /* Constrain image to leave room for caption */
+  .lightwidget__lightbox-preloader {
+    flex: 0 0 auto !important;
+    max-height: 30vh !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Caption takes remaining space and scrolls */
+  .lightwidget__lightbox-details {
+    flex: 1 1 auto !important;
+    min-height: 30vh !important;
+    overflow-y: auto !important;
+    width: 100% !important;
+  }
 }
