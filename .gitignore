@@ -1,6 +1,10 @@
 _site
 .jekyll-cache
 
+# Source images and processed outputs (run `ruby scripts/process-images.rb` before deploy)
+_source/
+assets/img/
+
 **/.terraform/
 **/.terraform.lock.hcl
 **/terraform.tfstate
