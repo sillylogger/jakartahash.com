@@ -2,6 +2,12 @@
 
 Welcome to the Jakarta Hash House Harriers website! This site is built using Jekyll, a static site generator.
 
+## Triage!
+* [ ] Respond to the guy from gotothehash.net
+* [ ] Get logos for each Hash to make it easier for people to make shirts
+* [ ] inspiration: https://www.hash.cn/
+* [ ] Don suggested adding that WA photo 🤔, should make a full gallery w/better photos
+
 ## Project Overview
 
 This project is a website for Jakarta's running club with a drinking problem. It provides information about the club, events, and more.
