@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    {% include head.html %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} | {{ site.title }}</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+    <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
+    <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+    <meta property="og:site_name" content="{{ site.title }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ '/assets/css/gallery.css' | relative_url }}">
   </head>
   <body>
-    <header>
-      <h1><a href="{{ '/' | relative_url }}">Jakarta Hash House Harriers</a></h1>
-      <nav>
-        <a href="{{ '/' | relative_url }}">Home</a> |
-        <a href="{{ '/kennels/' | relative_url }}">Kennels</a> |
-        <a href="{{ '/gallery/' | relative_url }}">Much Foto!</a>
-      </nav>
-    </header>
+    {% include header.html %}
 
-    <main>
+    <main class="page-content">
       {{ content }}
     </main>
+
+    {% include footer.html %}
+
+    <!-- NSFW Toggle Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const nsfwToggle = document.getElementById('nsfwToggle');
+        if (nsfwToggle) {
+          nsfwToggle.addEventListener('click', function() {
+            document.body.classList.toggle('nsfw-mode');
+          });
+        }
+      });
+    </script>
   </body>
 </html>
