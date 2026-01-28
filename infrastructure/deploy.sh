@@ -27,9 +27,9 @@ gcloud storage rsync _site/ gs://$SECONDARY_BUCKET/ --recursive --delete-unmatch
 
 echo "✅ Deployment complete!"
 
-# Skip CDN cache invalidation for now
-# echo "Invalidating CDN cache..."
-# gcloud compute url-maps invalidate-cdn-cache hash-house-harriers-url-map --path "/*" --quiet
+# Invalidate CDN cache
+echo "Invalidating CDN cache..."
+gcloud compute url-maps invalidate-cdn-cache hash-house-harriers-url-map --path "/*" --async
 
 echo ""
 echo "Your sites should be available at:"
